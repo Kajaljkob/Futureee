@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Predictor</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial;
+            background: #f2f4f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 430px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+            font-size: 16px;
+        }
+
+        button {
+            background: #0066ff;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #004fcc;
+        }
+
+        #loadingBox {
+    margin-top: 25px;
+    font-size: 18px;
+    display: block;  /* or block when shown */
+    padding: 18px 25px;
+    background: #f7f9fc; /* very light neutral blue/gray */
+    border: 1px solid #cbd2d9; /* subtle border */
+    border-radius: 8px;
+    font-weight: 500;
+    color: #1a1a1a;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+}
+
+
+        #videoOnlyContainer {
+            display: none;
+            justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 3 / 4;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="stepContainer">
+
+        <!-- STEP 1: NAME -->
+        <div id="step1">
+            <h1>Future Predictor</h1>
+            <p>Please enter your name:</p>
+            <input type="text" id="userName" placeholder="Enter your name">
+            <button onclick="goToStep2()">Next</button>
+        </div>
+
+        <!-- STEP 2: DOB -->
+        <div id="step2" style="display:none;">
+            <h1>Hello!</h1>
+            <p>Please enter your date of birth:</p>
+            <input type="date" id="userDOB">
+            <button onclick="goToStep3()">Next</button>
+        </div>
+
+        <!-- STEP 3: YEAR -->
+        <div id="step3" style="display:none;">
+            <h1>Future Prediction</h1>
+            <p>Select the year you want to explore:</p>
+
+            <select id="yearSelect">
+                <option>2026</option>
+                <option>2027</option>
+                <option>2028</option>
+                <option>2029</option>
+                <option>2030</option>
+            </select>
+
+            <button onclick="startProcess()">Start Prediction</button>
+        </div>
+
+        <div id="loadingBox"></div>
+
+    </div>
+
+    <!-- VIDEO ONLY MODE -->
+    <div id="videoOnlyContainer">
+        <div class="video-wrapper">
+            <video id="prankVideo" controls>
+                <source src="vedio/2026 (online-video-cutter.com).mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+<script>
+    // ---------------------------
+    // Step Navigation
+    // ---------------------------
+
+    function goToStep2() {
+        const n = document.getElementById("userName").value.trim();
+        if (n === "") {
+            alert("Please enter your name.");
+            return;
+        }
+        document.getElementById("step1").style.display = "none";
+        document.getElementById("step2").style.display = "block";
+    }
+
+    function goToStep3() {
+        const dob = document.getElementById("userDOB").value;
+        if (dob === "") {
+            alert("Please enter your date of birth.");
+            return;
+        }
+        document.getElementById("step2").style.display = "none";
+        document.getElementById("step3").style.display = "block";
+    }
+
+    // ---------------------------
+    // Prediction Loading Sequence
+    // ---------------------------
+
+    const steps = [
+        "Loading please wait...",
+        "Initializing system...",
+        "Verifying user data...",
+        "Checking weather...",
+        "Taking bath ...",
+        "Contacting NASA...",
+        "Call rejected...",
+        "Calling Modi ji...",
+        "Call Rejected..."
+    ];
+
+    function startProcess() {
+        document.getElementById("step3").style.display = "none";
+
+        const loadingBox = document.getElementById("loadingBox");
+        const container = document.getElementById("stepContainer");
+        const videoOnly = document.getElementById("videoOnlyContainer");
+
+        loadingBox.style.display = "block";
+        loadingBox.innerHTML = "";
+
+        let i = 0;
+
+        function showNext() {
+            if (i < steps.length) {
+                loadingBox.innerHTML = steps[i];
+                i++;
+                setTimeout(showNext, 1300);
+            } else {
+                // Hide everything
+                container.style.display = "none";
+                loadingBox.style.display = "none";
+
+                // Show video only
+                videoOnly.style.display = "flex";
+                document.getElementById("prankVideo").play();
+            }
+        }
+
+        showNext();
+    }
+</script>
+
+</body>
+</html>
